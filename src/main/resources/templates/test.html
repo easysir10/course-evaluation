@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>js导入excel</title>
+    <link href="https://fonts.googleapis.com/css?family=Nunito:400,600,700" rel="stylesheet">
+    <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="assets/css/plugins.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="plugins/table/datatable/datatables.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/forms/theme-checkbox-radio.css">
+    <link rel="stylesheet" type="text/css" href="plugins/table/datatable/dt-global_style.css">
+    <link href="plugins/animate/animate.css" rel="stylesheet" type="text/css" />
+    <link href="assets/css/scrollspyNav.css" rel="stylesheet" type="text/css" />
+    <link href="assets/css/components/custom-modal.css" rel="stylesheet" type="text/css" />
+    <link href="plugins/sweetalerts/sweetalert2.min.css" rel="stylesheet" type="text/css" />
+    <link href="plugins/sweetalerts/sweetalert.css" rel="stylesheet" type="text/css" />
+    <link href="assets/css/components/custom-sweetalert.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="plugins/table/datatable/custom_dt_html5.css">
+    <link href="assets/css/components/custom-media_object.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<!--    <div th:each="index:${indexList}">-->
+<!--        <h1 th:text="${index.indexName}"></h1>-->
+<!--        <div th:each="index1:${index.seedList}">-->
+<!--            <h3 th:text="${index1.indexName}"></h3>-->
+<!--            <div th:each="index2:${index1.seedList}">-->
+<!--                <h5 th:text="${index2.indexName}"></h5>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+
+    <div class="row">
+        <div id="mediaObjectList" class="col-lg-12 layout-spacing">
+            <div class="statbox widget box box-shadow">
+                <div class="widget-header">
+                    <div class="row">
+                        <div class="col-xl-12 col-md-12 col-sm-12 col-12">
+                            <h4>Media list</h4>
+                        </div>
+                    </div>
+                </div>
+                <div class="widget-content widget-content-area">
+                    <ul class="list-unstyled">
+                        <li class="media">
+                            <div class="media-body">
+                                <h4 class="media-heading">Heading</h4>
+                                <p class="media-text">Sed dapibus nulla elementum, rutrum neque eu, gravida neque. Fusce condimentum cursus mauris et ornare. Mauris fermentum mi id sollicitudin viverra. Aenean dignissim sed ante eget dapibus.</p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+<script src="assets/js/xlsx.mini.js"></script>
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.js"></script>
+<script src="https://cdn.bootcss.com/xlsx/0.11.5/xlsx.core.min.js"></script>
+<script src="assets/js/libs/jquery-3.1.1.min.js"></script>
+<script src="assets/js/app.js"></script>
+<script src="assets/js/custom.js"></script>
+<script src="assets/js/scrollspyNav.js"></script>
+
+<script src="bootstrap/js/popper.min.js"></script>
+<script src="bootstrap/js/bootstrap.min.js"></script>
+
+<script src="plugins/perfect-scrollbar/perfect-scrollbar.min.js"></script>
+<script src="plugins/sweetalerts/sweetalert2.min.js"></script>
+<script src="plugins/sweetalerts/custom-sweetalert.js"></script>
+<script src="plugins/table/datatable/datatables.js"></script>
+<script src="plugins/highlight/highlight.pack.js"></script>
+<script src="plugins/table/datatable/button-ext/dataTables.buttons.min.js"></script>
+<script src="plugins/table/datatable/button-ext/jszip.min.js"></script>
+<script src="plugins/table/datatable/button-ext/buttons.html5.min.js"></script>
+<script src="plugins/table/datatable/button-ext/buttons.print.min.js"></script>
+<script src="plugins/input-mask/jquery.inputmask.bundle.min.js"></script>
+<script src="plugins/input-mask/input-mask.js"></script>
+<script>
+
+    var wb;//读取
+    var rABS = false;
+
+    //开始导入
+    function importf(obj) {
+        if(!obj.files) {
+            return;
+        }
+        var f = obj.files[0];
+        var reader = new FileReader();
+        reader.onload = function(e) {
+            var data = e.target.result;
+            if(rABS) {
+                wb = XLSX.read(btoa(fixdata(data)), {//手动转化
+                    type: 'base64'
+                });
+            } else {
+                wb = XLSX.read(data, {
+                    type: 'binary'
+                });
+            }
+            /**
+             * wb.SheetNames[0]是获取Sheets中第一个Sheet的名字
+             * wb.Sheets[Sheet名]获取第一个Sheet的数据
+             */
+            var excelJson = XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]]);
+
+            var res = [];
+            for (var i in excelJson) {
+                var item = [];
+                for (var j in excelJson[i]) item.push(excelJson[i][j]);
+                res.push(item)
+            }
+
+            $('#course-table').DataTable({
+                data:res,
+                dom: '<"row"<"col-md-12"<"row"<"col-md-6"B><"col-md-6"f> > ><"col-md-12"rt> <"col-md-12"<"row"<"col-md-5"i><"col-md-7"p>>> >',
+                buttons: {
+                    buttons: [
+                        { text:'复制',extend: 'copy', className: 'btn',
+                            action: function () {
+                                swal({
+                                    title:'复制成功！',
+                                    padding: '2em'
+                                });
+                            } },
+                        { text:'导出为csv',extend: 'csv', className: 'btn' },
+                        { text:'导出为excel',extend: 'excel', className: 'btn' },
+                        { text: '批量导入', className: 'btn',
+                            action: function () {
+                                $('#profileModal').modal('show');
+                            }
+                        }
+                    ]
+                },
+                "oLanguage": {
+                    "oPaginate": { "sPrevious": '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-left"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>', "sNext": '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-right"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>' },
+                    "sInfo": "Showing page _PAGE_ of _PAGES_",
+                    "sSearch": '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-search"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>',
+                    "sSearchPlaceholder": "Search...",
+                    "sProcessing" : "正在加载数据，请稍后...",
+                    "sZeroRecords" : "没有数据！",
+                    "sEmptyTable" : "表中无数据存在！"
+                },
+                "stripeClasses": [],
+                "pageLength": 5,
+                "bAutoWidth":true,
+                columns: [
+                    {
+                        field: '学校名称',
+                        title: '学校名称'
+                    },
+                    {
+                        field: '学校编号',
+                        title: '学校编号'
+                    },
+                    {
+                        field: '城市',
+                        title: '城市'
+                    },
+                    {
+                        field: '县区',
+                        title: '县区'
+                    }]
+            });
+            document.getElementById("excelContent").innerHTML= JSON.stringify( excelJson );
+        };
+        if(rABS) {
+            reader.readAsArrayBuffer(f);
+        } else {
+            reader.readAsBinaryString(f);
+        }
+    }
+
+    //文件流转BinaryString
+    function fixdata(data) {
+        var o = "",
+            l = 0,
+            w = 10240;
+        for(; l < data.byteLength / w; ++l) o += String.fromCharCode.apply(null, new Uint8Array(data.slice(l * w, l * w +
+
+            w)));
+        o += String.fromCharCode.apply(null, new Uint8Array(data.slice(l * w)));
+        return o;
+    }
+</script>
+</body>
+</html>

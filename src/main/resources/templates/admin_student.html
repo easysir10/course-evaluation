@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no">
+    <title>软件学院课程质量评价系统</title>
+
+    <link href="https://fonts.googleapis.com/css?family=Nunito:400,600,700" rel="stylesheet">
+    <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="assets/css/plugins.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="plugins/table/datatable/datatables.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/forms/theme-checkbox-radio.css">
+    <link rel="stylesheet" type="text/css" href="plugins/table/datatable/dt-global_style.css">
+    <link href="plugins/animate/animate.css" rel="stylesheet" type="text/css" />
+    <link href="assets/css/scrollspyNav.css" rel="stylesheet" type="text/css" />
+    <link href="assets/css/components/custom-modal.css" rel="stylesheet" type="text/css" />
+    <link href="plugins/sweetalerts/sweetalert2.min.css" rel="stylesheet" type="text/css" />
+    <link href="plugins/sweetalerts/sweetalert.css" rel="stylesheet" type="text/css" />
+    <link href="assets/css/components/custom-sweetalert.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="plugins/table/datatable/custom_dt_html5.css">
+    <link href="plugins/file-upload/file-upload-with-preview.min.css" rel="stylesheet" type="text/css" />
+</head>
+<body data-spy="scroll" data-target="#navSection" data-offset="140">
+
+<!--  BEGIN NAVBAR  -->
+<div class="header-container fixed-top">
+    <header class="header navbar navbar-expand-sm">
+
+        <ul class="navbar-item theme-brand flex-row  text-center">
+            <li class="nav-item theme-logo">
+                <a href="/index">
+                    <img src="assets/img/院徽.png" class="navbar-logo" alt="logo" style="width: 45px;">
+                </a>
+            </li>
+            <li class="nav-item theme-text">
+                <a href="/index" class="nav-link"> 软件学院课程质量评价系统 </a>
+            </li>
+        </ul>
+
+        <ul class="navbar-item flex-row ml-md-auto">
+            <li class="nav-item dropdown notification-dropdown">
+                <a href="javascript:void(0);" class="nav-link dropdown-toggle" id="notificationDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-bell"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg><span class="badge badge-success"></span>
+                </a>
+                <div class="dropdown-menu position-absolute" aria-labelledby="notificationDropdown">
+                    <div class="notification-scroll">
+
+                        <div class="dropdown-item">
+                            <div class="media">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-heart"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+                                <div class="media-body">
+                                    <div class="notification-para"><span class="user-name">Shaun Park</span> likes your photo.</div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </li>
+
+            <li class="nav-item dropdown user-profile-dropdown">
+                <a href="javascript:void(0);" class="nav-link dropdown-toggle user" id="userProfileDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                    <img src="assets/img/profile-26.jpeg.jpg" alt="avatar">
+                    <div th:text="${session.user.teacherName}" style="float: right;margin-left: 10px;font-size: 15px !important;color: #e0e6ed !important;"></div>
+                </a>
+                <div class="dropdown-menu position-absolute" aria-labelledby="userProfileDropdown">
+                    <div class="dropdown-item">
+                        <a class="" href="" data-toggle="modal" data-target="#profileModal"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-user"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>个人信息</a>
+                    </div>
+                    <div class="dropdown-item">
+                        <a class="" href="/"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-log-out"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg> 退出登录</a>
+                    </div>
+                </div>
+            </li>
+
+        </ul>
+    </header>
+</div>
+<!--  END NAVBAR  -->
+
+<!--  BEGIN NAVBAR  -->
+<div class="sub-header-container">
+    <header class="header navbar navbar-expand-sm">
+        <a href="javascript:void(0);" class="sidebarCollapse" data-placement="bottom"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-menu"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg></a>
+
+        <ul class="navbar-nav flex-row">
+            <li>
+                <div class="page-header">
+
+                    <nav class="breadcrumb-one" aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item">学生管理</li>
+                            <!--                            <li class="breadcrumb-item active" aria-current="page"><span>Basic</span></li>-->
+                        </ol>
+                    </nav>
+
+                </div>
+            </li>
+        </ul>
+    </header>
+</div>
+<!--  END NAVBAR  -->
+
+<!--  BEGIN MAIN CONTAINER  -->
+<div class="main-container" id="container">
+
+    <div class="overlay"></div>
+    <div class="search-overlay"></div>
+
+    <!--  BEGIN SIDEBAR  -->
+    <div class="sidebar-wrapper sidebar-theme">
+
+        <nav id="sidebar">
+            <div class="shadow-bottom"></div>
+
+            <ul class="list-unstyled menu-categories" id="accordionExample">
+
+                <li class="menu">
+                    <a href="/index" aria-expanded="false" class="dropdown-toggle">
+                        <div class="">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-home"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+                            <span>评价管理</span>
+                        </div>
+                    </a>
+                </li>
+
+                <li class="menu">
+                    <a href="/adminTeacher" class="dropdown-toggle">
+                        <div class="">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-users"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+                            <span>教师管理</span>
+                        </div>
+                    </a>
+                </li>
+
+                <li class="menu">
+                    <a href="/adminStudent" data-active="true" class="dropdown-toggle">
+                        <div class="">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-box"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
+                            <span>学生管理</span>
+                        </div>
+                    </a>
+                </li>
+
+                <li class="menu">
+                    <a href="/adminCourse" class="dropdown-toggle">
+                        <div class="">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-clipboard"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path><rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect></svg>
+                            <span>课程管理</span>
+                        </div>
+                    </a>
+                </li>
+
+                <li class="menu">
+                    <a href="/adminIndex" class="dropdown-toggle">
+                        <div class="">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-zap"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+                            <span>指标管理</span>
+                        </div>
+                    </a>
+                </li>
+
+            </ul>
+
+        </nav>
+
+    </div>
+    <!--  END SIDEBAR  -->
+
+    <!--  BEGIN CONTENT AREA  -->
+    <div id="content" class="main-content">
+        <div class="layout-px-spacing">
+
+            <div class="row layout-top-spacing">
+                <div class="col-xl-12 col-lg-12 col-sm-12  layout-spacing">
+                    <div class="widget-content widget-content-area br-6">
+                        <div class="table-responsive mb-4 mt-4">
+                            <table id="student-table" class="table table-hover" style="width:100%">
+                                <thead>
+                                <tr>
+                                    <th>id</th>
+                                    <th>学号</th>
+                                    <th>姓名</th>
+                                    <th>性别</th>
+                                    <th>宿舍号</th>
+                                    <th>身份证号</th>
+                                    <th>学院</th>
+                                    <th>电话</th>
+                                    <th>密码</th>
+                                    <th>班级</th>
+                                    <th>专业</th>
+                                    <th>操作</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="student: ${studentList}">
+                                    <td th:text="${student.studentId}"></td>
+                                    <td th:text="${student.studentNo}"></td>
+                                    <td th:text="${student.studentName}"></td>
+                                    <td th:text="${student.studentGender}"></td>
+                                    <td th:text="${student.studentDormNo}"></td>
+                                    <td th:text="${student.studentCardNo}"></td>
+                                    <td th:text="${student.instituteName}"></td>
+                                    <td th:text="${student.studentPhone}"></td>
+                                    <td th:text="${student.studentPassword}"></td>
+                                    <td th:text="${student.classNo}"></td>
+                                    <td th:text="${student.classMajor}"></td>
+                                    <!--                                        <td>-->
+                                    <!--                                            <div th:if="${student.studentPermission} eq 1">管理员</div>-->
+                                    <!--                                            <div th:if="${student.studentPermission} eq 0">普通用户</div>-->
+                                    <!--                                        </td>-->
+                                    <td class="text-center">
+                                        <a onclick="formatSet();" data-toggle="modal" th:attr="data-target='#studentModal'+${student.studentId}"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit table-cancel"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg></a>
+                                        <a href="javascript:void(0);" th:onclick="'confirmMsg('+${student.studentId}+');'"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-trash-2 table-cancel"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg></a>
+                                    </td>
+                                    <div class="modal fade" th:id="'studentModal'+${student.studentId}" tabindex="-1" role="dialog" aria-hidden="true">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" th:text="${student.studentNo}+'-'+${student.studentName}+'的个人信息：'"></h5>
+                                                </div>
+                                                <form action="/updateStudentById" method="post">
+                                                    <input id="studentId" name="studentId" hidden th:value="${student.studentId}">
+                                                    <div class="modal-body">
+                                                        <div class="form-group row mb-4">
+                                                            <label class="col-sm-3 col-form-label" for="studentNo">学号</label>
+                                                            <div class="col-sm-8">
+                                                                <input type="number" class="form-control" id="studentNo" name="studentNo" placeholder="请输入学生学号" th:value="${student.studentNo}" required min="10000000" max="99999999" onkeyup = "value=value.replace(/[^\d]/g,'')">
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group row mb-4">
+                                                            <label class="col-sm-3 col-form-label" for="studentName">姓名</label>
+                                                            <div class="col-sm-8">
+                                                                <input type="text" class="form-control" id="studentName" name="studentName" placeholder="请输入学生姓名" th:value="${student.studentName}" required>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group row mb-4">
+                                                            <label class="col-sm-3 col-form-label" for="studentGender">性别</label>
+                                                            <div class="col-sm-8">
+                                                                <select class="form-control  basic" id="studentGender" name="studentGender">
+                                                                    <option value="男" th:selected="${student.studentGender} eq '男'">男</option>
+                                                                    <option value="女" th:selected="${student.studentGender} eq '女'">女</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group row mb-4">
+                                                            <label class="col-sm-3 col-form-label" for="studentDormNo">宿舍号</label>
+                                                            <div class="col-sm-8">
+                                                                <input type="text" class="form-control" id="studentDormNo" name="studentDormNo" placeholder="请输入宿舍号" th:value="${student.studentDormNo}" required>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group row mb-4">
+                                                            <label class="col-sm-3 col-form-label" for="studentCardNo">身份证号</label>
+                                                            <div class="col-sm-8">
+                                                                <input type="text" class="form-control" id="studentCardNo" name="studentCardNo" placeholder="请输入教师身份证号" th:value="${student.studentCardNo}" required maxlength="18" minlength="18">
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group row mb-4">
+                                                            <label class="col-sm-3 col-form-label" for="instituteId">学院</label>
+                                                            <div class="col-sm-8">
+                                                                <select class="form-control  basic" id="instituteId" name="instituteId">
+                                                                    <option th:each="institute:${instituteList}"
+                                                                            th:value="${institute.instituteId}"
+                                                                            th:text="${institute.instituteName}"
+                                                                            th:selected="${student.instituteName} eq ${institute.instituteName}"></option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group row mb-4">
+                                                            <label class="col-sm-3 col-form-label" for="studentPhone">电话</label>
+                                                            <div class="col-sm-8">
+                                                                <input type="number" class="form-control" id="studentPhone" name="studentPhone" placeholder="请输入学生电话" th:value="${student.studentPhone}" required min="10000000000" max="99999999999" onkeyup = "value=value.replace(/[^\d]/g,'')">
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group row mb-4">
+                                                            <label class="col-sm-3 col-form-label" for="studentPassword">密码</label>
+                                                            <div class="col-sm-8">
+                                                                <input type="text" class="form-control" id="studentPassword" name="studentPassword" placeholder="请输入学生密码" th:value="${student.studentPassword}" required minlength="8">
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group row mb-4">
+                                                            <label class="col-sm-3 col-form-label" for="classId">班级</label>
+                                                            <div class="col-sm-8">
+                                                                <select class="form-control  basic" id="classId" name="classId">
+                                                                    <option th:each="class:${classList}"
+                                                                            th:value="${class.classId}"
+                                                                            th:text="${class.classNo}"
+                                                                            th:selected="${student.classId} eq ${class.classId}"></option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button class="btn" data-dismiss="modal"><i class="flaticon-cancel-12"></i>取消</button>
+                                                        <button type="submit" class="btn btn-primary">保存</button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </tr>
+                                </tbody>
+                                <tfoot>
+                                <tr>
+                                    <th>id</th>
+                                    <th>学号</th>
+                                    <th>姓名</th>
+                                    <th>性别</th>
+                                    <th>宿舍号</th>
+                                    <th>身份证号</th>
+                                    <th>学院</th>
+                                    <th>电话</th>
+                                    <th>密码</th>
+                                    <th>班级</th>
+                                    <th>专业</th>
+                                    <th>操作</th>
+                                </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer-wrapper">
+            <div class="footer-section f-section-1">
+                <p class="">Copyright © 2020-Design By <a href="https://blog.csdn.net/qq_40947493">easysir10</a>.</p>
+            </div>
+            <div class="footer-section f-section-2">
+                <p class="">Coded with <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-heart"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg></p>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade profile-modal" id="profileModal" tabindex="-1" role="dialog" aria-labelledby="profileModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-content">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+
+                <div class="modal-header justify-content-center" id="profileModalLabel">
+                    <div class="modal-profile mt-4">
+                        <img alt="avatar" src="assets/img/profile-26.jpeg.jpg" class="rounded-circle">
+                    </div>
+                </div>
+                <div class="modal-body text-center">
+                    <p class="mt-2" th:text="${session.user.teacherName}"></p>
+                </div>
+                <div class="modal-footer justify-content-center mb-4">
+                    <button type="button" class="btn">修改</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="importModal" tabindex="-1" role="dialog" aria-labelledby="importModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div class="form-inline">
+                        <h5 class="modal-title" id="importModalLabel">批量导入</h5>(注意：导入数据必须包含学号、姓名、性别、宿舍号、身份证号、学院代码，电话、密码、班级代码)
+                    </div>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form action="/insertStudentBatch" method="post" enctype="multipart/form-data">
+                    <div class="modal-body">
+                        <div class="custom-file-container" data-upload-id="mySecondImage">
+                            <label>Upload  <a href="javascript:void(0)" class="custom-file-container__image-clear" title="Clear Image">x</a></label>
+                            <label class="custom-file-container__custom-file" >
+                                <input type="file" name="file" id="file" class="custom-file-container__custom-file__custom-file-input" onchange="importf(this)" accept=".xlsx,.xls">
+                                <input type="hidden" name="MAX_FILE_SIZE" value="10485760" />
+                                <span class="custom-file-container__custom-file__custom-file-control"></span>
+                            </label>
+                            <div class="custom-file-container__image-preview" hidden></div>
+                            <div class="table-responsive mb-4 mt-4">
+                                <table id="preview-student-table" class="table table-hover" style="width:100%"></table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn" data-dismiss="modal"><i class="flaticon-cancel-12"></i>取消</button>
+                        <button type="submit" class="btn btn-primary">导入</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<input id="message" th:value="${message}" hidden>
+<input id="message1" th:value="${message1}" hidden>
+<script src="assets/js/xlsx.mini.js"></script>
+<script src="assets/js/myJs/import.js"></script>
+<script src="assets/js/libs/jquery-3.1.1.min.js"></script>
+<script src="assets/js/app.js"></script>
+<script src="assets/js/custom.js"></script>
+<script src="assets/js/scrollspyNav.js"></script>
+
+<script src="bootstrap/js/popper.min.js"></script>
+<script src="bootstrap/js/bootstrap.min.js"></script>
+
+<script src="plugins/perfect-scrollbar/perfect-scrollbar.min.js"></script>
+<script src="plugins/sweetalerts/sweetalert2.min.js"></script>
+<script src="plugins/sweetalerts/custom-sweetalert.js"></script>
+<script src="plugins/table/datatable/datatables.js"></script>
+<script src="plugins/highlight/highlight.pack.js"></script>
+<script src="plugins/table/datatable/button-ext/dataTables.buttons.min.js"></script>
+<script src="plugins/table/datatable/button-ext/jszip.min.js"></script>
+<script src="plugins/table/datatable/button-ext/buttons.html5.min.js"></script>
+<script src="plugins/table/datatable/button-ext/buttons.print.min.js"></script>
+<script src="plugins/input-mask/jquery.inputmask.bundle.min.js"></script>
+<script src="plugins/input-mask/input-mask.js"></script>
+<script src="plugins/file-upload/file-upload-with-preview.min.js"></script>
+
+<script>
+    $(document).ready(function() {
+        App.init();
+    });
+    var msg = $("#message").val();
+    var msg1 = $("#message1").val();
+    if (msg !== '') {
+        swal(msg,msg1)
+    }
+
+    function confirmMsg(id) {
+        swal({
+            title: '确认删除?',
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonText: '删除',
+            cancelButtonText:'取消',
+            padding: '2em'
+        }).then(function(result) {
+            if (result.value) {
+                $.ajax({
+                    url: "/deleteStudentById?id="+id,
+                    type: "post",
+                    success: function () {
+                        window.location.reload();
+                    }
+                });
+            }
+        })
+    }
+</script>
+<script>
+    $('#student-table').DataTable({
+        dom: '<"row"<"col-md-12"<"row"<"col-md-6"B><"col-md-6"f> > ><"col-md-12"rt> <"col-md-12"<"row"<"col-md-5"i><"col-md-7"p>>> >',
+        buttons: {
+            buttons: [
+                { text:'复制',extend: 'copy', className: 'btn'},
+                { text:'导出为excel',extend: 'excel', className: 'btn' },
+                { text: '批量导入', className: 'btn',
+                    action: function () {
+                        $('#importModal').modal('show');
+                    }
+                }
+            ]
+        },
+        "oLanguage": {
+            "oPaginate": { "sPrevious": '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-left"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>', "sNext": '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-right"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>' },
+            "sInfo": "Showing page _PAGE_ of _PAGES_",
+            "sSearch": '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-search"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>',
+            "sSearchPlaceholder": "Search...",
+            "sProcessing" : "正在加载数据，请稍后...",
+            "sZeroRecords" : "没有数据！",
+            "sEmptyTable" : "表中无数据存在！"
+        },
+        "stripeClasses": [],
+        "pageLength": 5,
+        "columnDefs": [
+            // {
+            //     "targets": [0,1,2,3,4,5,6,7,8,9,10],
+            //     render: function (data) {
+            //         if (data) {
+            //             if (data.length > 8) {
+            //                 return "<a title="+data+" id='data' href = 'javascript:void(0);' onclick = 'displayData(\""+data+"\")' >"+data.substr(0, 8)+"...</a>";
+            //             }else{
+            //                 return data;
+            //             }
+            //         }else {
+            //             return "";
+            //         }
+            //     }
+            // },
+            {
+                "targets": [0],
+                "width":1
+            }
+        ],
+        "bAutoWidth":false
+    });
+    function displayData(data) {
+        alert(data);
+        $('#data').attr("value",data);
+    }
+
+    function formatSet() {
+        $('#studentDormNo').inputmask("99-999");
+    }
+    var secondUpload = new FileUploadWithPreview('mySecondImage');
+</script>
+<style>
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+    }
+    input[type="number"]{
+        -moz-appearance: textfield;
+    }
+</style>
+</body>
+</html>

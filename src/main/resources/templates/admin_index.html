@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no">
+    <title>软件学院课程质量评价系统</title>
+
+    <link href="https://fonts.googleapis.com/css?family=Nunito:400,600,700" rel="stylesheet">
+    <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+    <link href="assets/css/plugins.css" rel="stylesheet" type="text/css"/>
+    <link rel="stylesheet" type="text/css" href="plugins/table/datatable/datatables.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/forms/theme-checkbox-radio.css">
+    <link rel="stylesheet" type="text/css" href="plugins/table/datatable/dt-global_style.css">
+    <link href="plugins/animate/animate.css" rel="stylesheet" type="text/css"/>
+    <link href="assets/css/scrollspyNav.css" rel="stylesheet" type="text/css"/>
+    <link href="assets/css/components/custom-modal.css" rel="stylesheet" type="text/css"/>
+    <link href="plugins/sweetalerts/sweetalert2.min.css" rel="stylesheet" type="text/css"/>
+    <link href="plugins/sweetalerts/sweetalert.css" rel="stylesheet" type="text/css"/>
+    <link href="assets/css/components/custom-sweetalert.css" rel="stylesheet" type="text/css"/>
+    <link rel="stylesheet" type="text/css" href="plugins/table/datatable/custom_dt_html5.css">
+
+</head>
+<body data-spy="scroll" data-target="#navSection" data-offset="140">
+
+<div class="header-container fixed-top">
+    <header class="header navbar navbar-expand-sm">
+
+        <ul class="navbar-item theme-brand flex-row  text-center">
+            <li class="nav-item theme-logo">
+                <a href="/index">
+                    <img src="assets/img/院徽.png" class="navbar-logo" alt="logo" style="width: 45px;">
+                </a>
+            </li>
+            <li class="nav-item theme-text">
+                <a href="/index" class="nav-link"> 软件学院课程质量评价系统 </a>
+            </li>
+        </ul>
+
+        <ul class="navbar-item flex-row ml-md-auto">
+            <li class="nav-item dropdown notification-dropdown">
+                <a href="javascript:void(0);" class="nav-link dropdown-toggle" id="notificationDropdown"
+                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                         stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                         class="feather feather-bell">
+                        <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+                        <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+                    </svg>
+                    <span class="badge badge-success"></span>
+                </a>
+                <div class="dropdown-menu position-absolute" aria-labelledby="notificationDropdown">
+                    <div class="notification-scroll">
+
+                        <div class="dropdown-item">
+                            <div class="media">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                     fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                     stroke-linejoin="round" class="feather feather-heart">
+                                    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                                </svg>
+                                <div class="media-body">
+                                    <div class="notification-para"><span class="user-name">Shaun Park</span> likes your
+                                        photo.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </li>
+
+            <li class="nav-item dropdown user-profile-dropdown">
+                <a href="javascript:void(0);" class="nav-link dropdown-toggle user" id="userProfileDropdown"
+                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                    <img src="assets/img/profile-26.jpeg.jpg" alt="avatar">
+                    <div th:text="${session.user.teacherName}"
+                         style="float: right;margin-left: 10px;font-size: 15px !important;color: #e0e6ed !important;"></div>
+                </a>
+                <div class="dropdown-menu position-absolute" aria-labelledby="userProfileDropdown">
+                    <div class="dropdown-item">
+                        <a class="" href="">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                 fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                 stroke-linejoin="round" class="feather feather-user">
+                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                                <circle cx="12" cy="7" r="4"></circle>
+                            </svg>
+                            个人信息</a>
+                    </div>
+                    <div class="dropdown-item">
+                        <a class="" href="/">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                 fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                 stroke-linejoin="round" class="feather feather-log-out">
+                                <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                                <polyline points="16 17 21 12 16 7"></polyline>
+                                <line x1="21" y1="12" x2="9" y2="12"></line>
+                            </svg>
+                            退出登录</a>
+                    </div>
+                </div>
+            </li>
+
+        </ul>
+    </header>
+</div>
+
+<div class="sub-header-container">
+    <header class="header navbar navbar-expand-sm">
+        <a href="javascript:void(0);" class="sidebarCollapse" data-placement="bottom">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                 class="feather feather-menu">
+                <line x1="3" y1="12" x2="21" y2="12"></line>
+                <line x1="3" y1="6" x2="21" y2="6"></line>
+                <line x1="3" y1="18" x2="21" y2="18"></line>
+            </svg>
+        </a>
+
+        <ul class="navbar-nav flex-row">
+            <li>
+                <div class="page-header">
+
+                    <nav class="breadcrumb-one" aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item">指标管理</li>
+                            <!--                            <li class="breadcrumb-item active" aria-current="page"><span>Basic</span></li>-->
+                        </ol>
+                    </nav>
+
+                </div>
+            </li>
+        </ul>
+    </header>
+</div>
+
+<div class="main-container" id="container">
+
+    <div class="overlay"></div>
+    <div class="search-overlay"></div>
+
+    <div class="sidebar-wrapper sidebar-theme">
+
+        <nav id="sidebar">
+            <div class="shadow-bottom"></div>
+
+            <ul class="list-unstyled menu-categories" id="accordionExample">
+
+                <li class="menu">
+                    <a href="/index" class="dropdown-toggle">
+                        <div class="">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                 fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                 stroke-linejoin="round" class="feather feather-home">
+                                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                                <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                            </svg>
+                            <span>评价管理</span>
+                        </div>
+                    </a>
+                </li>
+
+                <li class="menu">
+                    <a href="/adminTeacher" class="dropdown-toggle">
+                        <div class="">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                 fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                 stroke-linejoin="round" class="feather feather-users">
+                                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                                <circle cx="9" cy="7" r="4"></circle>
+                                <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                                <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                            </svg>
+                            <span>教师管理</span>
+                        </div>
+                    </a>
+                </li>
+
+                <li class="menu">
+                    <a href="/adminStudent" class="dropdown-toggle">
+                        <div class="">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                 fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                 stroke-linejoin="round" class="feather feather-box">
+                                <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+                                <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+                                <line x1="12" y1="22.08" x2="12" y2="12"></line>
+                            </svg>
+                            <span>学生管理</span>
+                        </div>
+                    </a>
+                </li>
+
+                <li class="menu">
+                    <a href="/adminCourse" class="dropdown-toggle">
+                        <div class="">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                 fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                 stroke-linejoin="round" class="feather feather-clipboard">
+                                <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path>
+                                <rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect>
+                            </svg>
+                            <span>课程管理</span>
+                        </div>
+                    </a>
+                </li>
+
+                <li class="menu">
+                    <a href="/adminIndex" data-active="true" class="dropdown-toggle">
+                        <div class="">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                 fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                 stroke-linejoin="round" class="feather feather-zap">
+                                <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+                            </svg>
+                            <span>指标管理</span>
+                        </div>
+                    </a>
+                </li>
+
+            </ul>
+
+        </nav>
+
+    </div>
+
+    <div id="content" class="main-content">
+        <div class="layout-px-spacing">
+
+            <div class="row layout-top-spacing">
+                <div class="col-xl-12 col-lg-12 col-sm-12  layout-spacing">
+                    <div class="widget-content widget-content-area br-6">
+                        <div class="table-responsive mb-4 mt-4">
+                            <table id="index-table" class="table table-hover" style="width:100%">
+                                <thead>
+                                <tr>
+                                    <th>id</th>
+                                    <th>指标名</th>
+                                    <th>权重</th>
+                                    <th>指标等级</th>
+                                    <th>父指标</th>
+                                    <th>操作</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="index: ${indexList}">
+                                    <td th:text="${index.indexId}"></td>
+                                    <td th:text="${index.indexName}"></td>
+                                    <td th:text="${index.indexPercent}"></td>
+                                    <td>
+                                        <a th:text="${index.indexGrade}+'级指标'"></a>
+                                    </td>
+                                    <td>
+                                        <a th:if="${index.parentName eq null}">无</a>
+                                        <a th:if="${index.parentName ne null}"
+                                           th:text="${index.parentId}+'-'+${index.parentName}"></a>
+                                    </td>
+                                    <td class="text-center">
+                                        <a data-toggle="modal" th:attr="data-target='#indexModal'+${index.indexId}">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                 viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                                 stroke-linecap="round" stroke-linejoin="round"
+                                                 class="feather feather-edit table-cancel">
+                                                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                                                <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                                            </svg>
+                                        </a>
+                                        <a href="javascript:void(0);" th:onclick="'confirmMsg('+${index.indexId}+');'">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                 viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                                 stroke-linecap="round" stroke-linejoin="round"
+                                                 class="feather feather-trash-2 table-cancel">
+                                                <polyline points="3 6 5 6 21 6"></polyline>
+                                                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                                                <line x1="10" y1="11" x2="10" y2="17"></line>
+                                                <line x1="14" y1="11" x2="14" y2="17"></line>
+                                            </svg>
+                                        </a>
+                                    </td>
+                                    <div class="modal fade" th:id="'indexModal'+${index.indexId}" tabindex="-1"
+                                         role="dialog" aria-hidden="true">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" th:text="${index.indexName}+'指标信息：'"></h5>
+                                                </div>
+                                                <form action="/updateIndexById" method="post">
+                                                    <input id="indexId" name="indexId" hidden
+                                                           th:value="${index.indexId}">
+                                                    <div class="modal-body">
+                                                        <div class="form-group row mb-4">
+                                                            <label class="col-sm-3 col-form-label"
+                                                                   for="indexName">指标名</label>
+                                                            <div class="col-sm-8">
+                                                                <input type="text" class="form-control" id="indexName"
+                                                                       name="indexName" placeholder="请输入指标名"
+                                                                       th:value="${index.indexName}" required>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group row mb-4">
+                                                            <label class="col-sm-3 col-form-label"
+                                                                   for="indexPercent">权重</label>
+                                                            <div class="col-sm-8">
+                                                                <input type="text" class="form-control"
+                                                                       id="indexPercent" name="indexPercent"
+                                                                       placeholder="请输入指标权重"
+                                                                       th:value="${index.indexPercent}" required min="0"
+                                                                       onkeyup="value=value.replace(/[^\d.]/g,'')">
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group row mb-4">
+                                                            <label class="col-sm-3 col-form-label"
+                                                                   for="indexGrade">指标等级</label>
+                                                            <div class="col-sm-8">
+                                                                <input type="text" class="form-control" id="indexGrade"
+                                                                       name="indexGrade" placeholder="请输入指标等级"
+                                                                       th:value="${index.indexGrade}" required min="1"
+                                                                       onkeyup="value=value.replace(/[^\d]/g,'')"
+                                                                       readonly>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group row mb-4">
+                                                            <label class="col-sm-3 col-form-label"
+                                                                   for="parentId">父指标</label>
+                                                            <div class="col-sm-8">
+                                                                <select class="form-control  basic" id="parentId"
+                                                                        name="parentId">
+                                                                    <option th:each="index0:${indexList}"
+                                                                            th:value="${index0.indexId}"
+                                                                            th:text="${index0.indexId}+'-'+${index0.indexName}"
+                                                                            th:selected="${index0.indexId} eq ${index.parentId}"
+                                                                            th:if="${index0.indexGrade} eq ${index.indexGrade}-1"></option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button class="btn" data-dismiss="modal"><i
+                                                                class="flaticon-cancel-12"></i>取消
+                                                        </button>
+                                                        <button type="submit" class="btn btn-primary">保存</button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </tr>
+                                </tbody>
+                                <tfoot>
+                                <tr>
+                                    <th>id</th>
+                                    <th>指标名</th>
+                                    <th>权重</th>
+                                    <th>指标等级</th>
+                                    <th>父指标</th>
+                                    <th>操作</th>
+                                </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer-wrapper">
+            <div class="footer-section f-section-1">
+                <p class="">Copyright © 2020-Design By <a href="https://blog.csdn.net/qq_40947493">easysir10</a>.</p>
+            </div>
+            <div class="footer-section f-section-2">
+                <p class="">Coded with
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                         stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                         class="feather feather-heart">
+                        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                    </svg>
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="indexAdd" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">添加指标信息</h5>
+                </div>
+                <form action="/insertIndex" method="post">
+                    <div class="modal-body">
+                        <div class="form-group row mb-4">
+                            <label class="col-sm-3 col-form-label" for="indexName1">指标名</label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control" id="indexName1" name="indexName"
+                                       placeholder="请输入指标名" required>
+                            </div>
+                        </div>
+                        <div class="form-group row mb-4">
+                            <label class="col-sm-3 col-form-label" for="indexPercent1">权重</label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control" id="indexPercent1" name="indexPercent"
+                                       placeholder="请输入指标权重" required min="0"
+                                       onkeyup="value=value.replace(/[^\d.]/g,'')">
+                            </div>
+                        </div>
+                        <div class="form-group row mb-4">
+                            <label class="col-sm-3 col-form-label" for="parentId1">父指标</label>
+                            <div class="col-sm-8">
+                                <select class="form-control  basic" id="parentId1" name="parentId">
+                                    <optgroup label="无">
+                                        <option th:value="0" th:text="无"></option>
+                                    </optgroup>
+                                    <optgroup label="一级指标">
+                                        <option th:each="index1:${indexList}"
+                                                th:if="${index1.indexGrade eq 1}"
+                                                th:value="${index1.indexId}"
+                                                th:text="${index1.indexId}+'-'+${index1.indexName}">
+                                        </option>
+                                    </optgroup>
+                                    <optgroup label="二级指标">
+                                        <option th:each="index1:${indexList}"
+                                                th:if="${index1.indexGrade eq 2}"
+                                                th:value="${index1.indexId}"
+                                                th:text="${index1.indexId}+'-'+${index1.indexName}">
+                                        </option>
+                                    </optgroup>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn" data-dismiss="modal"><i class="flaticon-cancel-12"></i>取消</button>
+                        <button type="submit" class="btn btn-primary">保存</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<input id="message" th:value="${message}" hidden>
+<script src="assets/js/xlsx.mini.js"></script>
+<script src="assets/js/libs/jquery-3.1.1.min.js"></script>
+<script src="assets/js/app.js"></script>
+<script src="assets/js/custom.js"></script>
+<script src="assets/js/scrollspyNav.js"></script>
+<script src="assets/js/myJs/import.js"></script>
+
+<script src="bootstrap/js/popper.min.js"></script>
+<script src="bootstrap/js/bootstrap.min.js"></script>
+
+<script src="plugins/perfect-scrollbar/perfect-scrollbar.min.js"></script>
+<script src="plugins/sweetalerts/sweetalert2.min.js"></script>
+<script src="plugins/sweetalerts/custom-sweetalert.js"></script>
+<script src="plugins/table/datatable/datatables.js"></script>
+<script src="plugins/highlight/highlight.pack.js"></script>
+<script src="plugins/table/datatable/button-ext/dataTables.buttons.min.js"></script>
+<script src="plugins/table/datatable/button-ext/jszip.min.js"></script>
+<script src="plugins/table/datatable/button-ext/buttons.html5.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        App.init();
+    });
+    var msg = $("#message").val();
+    if (msg !== '') {
+        swal(msg)
+    }
+
+    function confirmMsg(id) {
+        swal({
+            title: '确认删除?',
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonText: '删除',
+            cancelButtonText: '取消',
+            padding: '2em'
+        }).then(function (result) {
+            if (result.value) {
+                $.ajax({
+                    url: "/deleteIndexById?id=" + id,
+                    type: "post",
+                    success: function () {
+                        window.location.reload();
+                    }
+                });
+            }
+        })
+    }
+</script>
+<script>
+    $('#index-table').DataTable({
+        dom: '<"row"<"col-md-12"<"row"<"col-md-6"B><"col-md-6"f> > ><"col-md-12"rt> <"col-md-12"<"row"<"col-md-5"i><"col-md-7"p>>> >',
+        buttons: {
+            buttons: [
+                {text: '复制', extend: 'copy', className: 'btn'},
+                {text: '导出为excel', extend: 'excel', className: 'btn'},
+                {
+                    text: '添加指标', className: 'btn',
+                    action: function () {
+                        $('#indexAdd').modal('show');
+                    }
+                }
+            ]
+        },
+        "oLanguage": {
+            "oPaginate": {
+                "sPrevious": '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-left"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>',
+                "sNext": '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-right"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>'
+            },
+            "sInfo": "Showing page _PAGE_ of _PAGES_",
+            "sSearch": '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-search"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>',
+            "sSearchPlaceholder": "Search...",
+            "sProcessing": "正在加载数据，请稍后...",
+            "sZeroRecords": "没有数据！",
+            "sEmptyTable": "表中无数据存在！"
+        },
+        "stripeClasses": [],
+        "pageLength": 5,
+        "bAutoWidth": true
+    });
+</script>
+</body>
+</html>
