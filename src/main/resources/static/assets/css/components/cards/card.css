@@ -262,13 +262,14 @@
 */
 
 .component-card_7 {
-    background-color: #1b55e2;
+    background-color: #fff;
+    background-image: url(../../../img/bg.png);
     color: #fff;
     border: none;
     width: 18rem;
-    margin: 0 auto;
     -webkit-box-shadow: 4px 6px 10px -3px #bfc9d4;
     box-shadow: 4px 6px 10px -3px #bfc9d4;
+    margin: 0 auto 20px;
 }
 .component-card_7 .card-body {
     padding: 23px 10px;

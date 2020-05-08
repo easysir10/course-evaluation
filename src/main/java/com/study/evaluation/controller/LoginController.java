@@ -3,9 +3,7 @@ package com.study.evaluation.controller;
 import com.alibaba.fastjson.JSONObject;
 import com.study.evaluation.bean.StudentBean;
 import com.study.evaluation.bean.TeacherBean;
-import com.study.evaluation.service.EvaluationService;
-import com.study.evaluation.service.StudentService;
-import com.study.evaluation.service.TeacherService;
+import com.study.evaluation.service.*;
 import com.zhenzi.sms.ZhenziSmsClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -32,6 +30,10 @@ public class LoginController {
     StudentService studentService;
     @Autowired
     EvaluationService evaluationService;
+    @Autowired
+    SelectService selectService;
+    @Autowired
+    CourseService courseService;
 
     /**
      * 跳转至登陆界面
@@ -67,8 +69,8 @@ public class LoginController {
             httpSession.removeAttribute("messageT");
             model.addAttribute("message1",httpSession.getAttribute("messageT1"));
             httpSession.removeAttribute("messageT1");
-            model.addAttribute("evaList",evaluationService.selectAll());
-            return "admin_evaluation";
+            model.addAttribute("courseList",courseService.selectAll(-1));
+            return "admin_data";
         }else {
             return "student_index";
         }

@@ -15,6 +15,7 @@ public class ClassBean {
     private String classMajor;
     private int classCount;
     private int teacherId;
+    private int teacherNo;
     private String teacherName;
     private int instituteId;
     private String instituteName;

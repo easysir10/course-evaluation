@@ -18,6 +18,7 @@ public interface ClassDao {
      */
     @Select("SELECT class_id," + "class_no," + "class_major,"
                     + "(select count(*) from `student` where class_id=c.class_id)as class_count," + "teacher_id,"
+                    + "(select teacher_no from teacher where teacher_id=c.teacher_id) as teacher_no,"
                     + "( select teacher_name FROM teacher WHERE teacher_id = c.teacher_id ) AS teacher_name,"
                     + "institute_id,"
                     + "( SELECT institute_name FROM institute WHERE institute_id = c.institute_id ) AS institute_name "

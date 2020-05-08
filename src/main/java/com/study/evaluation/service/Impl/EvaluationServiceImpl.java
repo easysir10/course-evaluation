@@ -118,7 +118,7 @@ public class EvaluationServiceImpl implements EvaluationService {
                 evaluationBean.setEvaluationPeopleNo(Double.valueOf((String) list.get(0)).intValue());
                 evaluationBean.setCourseId(Double.valueOf((String) list.get(1)).intValue());
                 evaluationBean.setEvaluationTime((String) list.get(2));
-                evaluationBean.setEvaluationType(Double.valueOf((String) list.get(3)).intValue());
+                evaluationBean.setRoleId(Double.valueOf((String) list.get(3)).intValue());
                 evaluationBean.setEvaluationScore(new Double(String.valueOf(list.get(4))));
                 evaluationBean.setEvaluationAdvice((String) list.get(5));
                 result[1] += evaluationDao.insert(evaluationBean);

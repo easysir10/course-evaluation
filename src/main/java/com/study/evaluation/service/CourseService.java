@@ -15,7 +15,7 @@ public interface CourseService {
     /**
      * 查询所有的课程信息
      */
-    List<CourseBean> selectAll();
+    List<CourseBean> selectAll(int id);
 
     /**
      * 删除课程信息

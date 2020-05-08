@@ -38,6 +38,24 @@ public class IndexServiceImpl implements IndexService {
         return list;
     }
 
+    @Override
+    public List<IndexBean> countIndex(int id) {
+        List<IndexBean> list = displayIndex();
+        for (IndexBean indexBean1:list){
+            for(IndexBean indexBean2:indexBean1.getSeedList()){
+                for(IndexBean indexBean3:indexBean2.getSeedList()){
+                    indexBean3.setRes1(indexDao.selectResult(id,indexBean3.getIndexId(),100));
+                    indexBean3.setRes2(indexDao.selectResult(id,indexBean3.getIndexId(),80));
+                    indexBean3.setRes3(indexDao.selectResult(id,indexBean3.getIndexId(),60));
+                    indexBean3.setRes4(indexDao.selectResult(id,indexBean3.getIndexId(),40));
+                    indexBean3.setRes5(indexDao.selectResult(id,indexBean3.getIndexId(),20));
+
+                }
+            }
+        }
+        return list;
+    }
+
     /**
      * 删除指标信息
      *

@@ -2,6 +2,7 @@ package com.study.evaluation.service.Impl;
 
 import com.study.evaluation.bean.CourseBean;
 import com.study.evaluation.dao.CourseDao;
+import com.study.evaluation.dao.IndexDao;
 import com.study.evaluation.service.CourseService;
 import com.study.evaluation.utils.ImportExcelUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,13 +21,31 @@ public class CourseServiceImpl implements CourseService {
 
     @Autowired
     CourseDao courseDao;
+    @Autowired
+    IndexDao indexDao;
 
     /**
      * 查询所有的课程信息
      */
     @Override
-    public List<CourseBean> selectAll() {
-        return courseDao.selectAll();
+    public List<CourseBean> selectAll(int id) {
+        List<CourseBean> list = courseDao.selectAll(id);
+        for (CourseBean bean:list){
+            if (courseDao.selectResult(bean.getCourseId())!=null){
+                CourseBean res = courseDao.selectResult(bean.getCourseId());
+                bean.setCount(res.getCount());
+                bean.setAvgScore(Double.parseDouble(String.format("%.2f", res.getAvgScore())));
+                bean.setTeacherCount(res.getTeacherCount());
+                bean.setStudentCount(res.getStudentCount());
+                bean.setOtherCount(res.getOtherCount());
+            }
+            bean.setRes1(indexDao.selectResult(bean.getCourseId(),-1,100));
+            bean.setRes2(indexDao.selectResult(bean.getCourseId(),-1,80));
+            bean.setRes3(indexDao.selectResult(bean.getCourseId(),-1,60));
+            bean.setRes4(indexDao.selectResult(bean.getCourseId(),-1,40));
+            bean.setRes5(indexDao.selectResult(bean.getCourseId(),-1,20));
+        }
+        return list;
     }
 
     /**
@@ -77,6 +96,17 @@ public class CourseServiceImpl implements CourseService {
         }
 
         return result;
+    }
+
+    /**
+     *
+     * 利用模糊综合评价进行课程最终结果的评价计算
+     *
+     */
+    private String overallEva(int courseId){
+
+
+        return "";
     }
 
 

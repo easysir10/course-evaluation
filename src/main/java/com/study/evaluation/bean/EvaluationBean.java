@@ -16,7 +16,8 @@ public class EvaluationBean {
     private int courseId;
     private String courseName;
     private String evaluationTime;
-    private int evaluationType;
+    private int roleId;
+    private String roleName;
     private double evaluationScore;
     private String evaluationAdvice;
 

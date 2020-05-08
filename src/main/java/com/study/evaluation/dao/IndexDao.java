@@ -41,4 +41,13 @@ public interface IndexDao {
 
     @Select("select index_grade from `index` where index_id=#{id};")
     int selectIndexGrade(@Param("id") int id);
+
+    @Select("<script>" +
+                "SELECT count( * ) FROM evaluation_index WHERE index_score = #{score} " +
+                "AND evaluation_id IN ( SELECT evaluation_id FROM evaluation WHERE course_id = #{courseId} )"+
+                "<if test='indexId!=-1'>" +
+                    "and index_id =#{indexId}" +
+                "</if>"+
+            "</script>")
+    int selectResult(@Param("courseId") int courseId,@Param("indexId") int indexId, @Param("score") double score);
 }
