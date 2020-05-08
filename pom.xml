@@ -82,7 +82,7 @@
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>fastjson</artifactId>
-            <version>1.2.5</version>
+            <version>1.2.25</version>
         </dependency>
         <dependency>
             <groupId>org.apache.poi</groupId>
@@ -95,8 +95,9 @@
             <version>3.17</version>
         </dependency>
         <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-math3</artifactId>
+                <groupId>org.ujmp</groupId>
+                <artifactId>ujmp-core</artifactId>
+                <version>0.3.0</version>
         </dependency>
     </dependencies>
     <build>

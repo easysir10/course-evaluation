@@ -1,13 +1,19 @@
 package com.study.evaluation.service.Impl;
 
 import com.study.evaluation.bean.CourseBean;
+import com.study.evaluation.bean.IndexBean;
+import com.study.evaluation.bean.RoleBean;
 import com.study.evaluation.dao.CourseDao;
 import com.study.evaluation.dao.IndexDao;
 import com.study.evaluation.service.CourseService;
+import com.study.evaluation.service.IndexService;
+import com.study.evaluation.service.RoleService;
 import com.study.evaluation.utils.ImportExcelUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import org.ujmp.core.DenseMatrix;
+import org.ujmp.core.Matrix;
 
 import java.util.List;
 
@@ -23,6 +29,10 @@ public class CourseServiceImpl implements CourseService {
     CourseDao courseDao;
     @Autowired
     IndexDao indexDao;
+    @Autowired
+    IndexService indexService;
+    @Autowired
+    RoleService roleService;
 
     /**
      * 查询所有的课程信息
@@ -39,11 +49,16 @@ public class CourseServiceImpl implements CourseService {
                 bean.setStudentCount(res.getStudentCount());
                 bean.setOtherCount(res.getOtherCount());
             }
-            bean.setRes1(indexDao.selectResult(bean.getCourseId(),-1,100));
-            bean.setRes2(indexDao.selectResult(bean.getCourseId(),-1,80));
-            bean.setRes3(indexDao.selectResult(bean.getCourseId(),-1,60));
-            bean.setRes4(indexDao.selectResult(bean.getCourseId(),-1,40));
-            bean.setRes5(indexDao.selectResult(bean.getCourseId(),-1,20));
+            if (id!=-1){
+                bean.setRes1(indexDao.selectResult(bean.getCourseId(),-1,100));
+                bean.setRes2(indexDao.selectResult(bean.getCourseId(),-1,80));
+                bean.setRes3(indexDao.selectResult(bean.getCourseId(),-1,60));
+                bean.setRes4(indexDao.selectResult(bean.getCourseId(),-1,40));
+                bean.setRes5(indexDao.selectResult(bean.getCourseId(),-1,20));
+                if (bean.getCount()!=0){
+                    bean.setResult(overallEva(id));
+                }
+            }
         }
         return list;
     }
@@ -105,8 +120,96 @@ public class CourseServiceImpl implements CourseService {
      */
     private String overallEva(int courseId){
 
+        // 各级指标的权重总和
+        double sum0=0, sum1 = 0, sum2, sum3;
 
-        return "";
+        // 查询出所有的指标
+        List<IndexBean> list = indexService.countIndex(courseId);
+
+        // 查询出角色权重,并计算出权重总和
+        List<RoleBean> roleBeanList = roleService.selectAll();
+        // 角色的权重向量数组
+        double[] a0 = new double[roleBeanList.size()];
+        for (RoleBean bean: roleBeanList) {
+            sum0+=bean.getRolePercent();
+        }
+        for (int i=0;i<a0.length;i++) {
+            a0[i]=roleBeanList.get(i).getRolePercent()/sum0;
+        }
+
+
+
+        Matrix a11 = DenseMatrix.Factory.zeros(1, list.size());
+        Matrix a12 = DenseMatrix.Factory.zeros(list.size(), 5);
+        int i1 = 0;
+        // 计算所有一级指标的权重总和
+        for (IndexBean index1 : list) {
+            sum1 += index1.getIndexPercent();
+        }
+
+        for (IndexBean index1 : list) {
+            sum2 = 0;
+            Matrix a21 = DenseMatrix.Factory.zeros(1, index1.getSeedList().size());
+            Matrix a22 = DenseMatrix.Factory.zeros(index1.getSeedList().size(), 5);
+            int i2 = 0;
+
+            // 计算所有二级指标的权重总和
+            for (IndexBean index2 : index1.getSeedList()) {
+                sum2 += index2.getIndexPercent();
+            }
+
+            for (IndexBean index2 : index1.getSeedList()) {
+                sum3 = 0;
+                Matrix a31 = DenseMatrix.Factory.zeros(1, index2.getSeedList().size());
+                Matrix a32 = DenseMatrix.Factory.zeros(index2.getSeedList().size(), 5);
+                int i3 = 0;
+                // 计算三级指标的权重总和
+                for (IndexBean index3 : index2.getSeedList()) {
+                    sum3 += index3.getIndexPercent();
+                }
+
+                for (IndexBean index3 : index2.getSeedList()) {
+                    a31.setAsDouble(index3.getIndexPercent()/sum3,0,i3);
+                    a32.setAsDouble((double) index3.getRes1()/index3.getSumRes(),i3,0);
+                    a32.setAsDouble((double) index3.getRes2()/index3.getSumRes(),i3,1);
+                    a32.setAsDouble((double) index3.getRes3()/index3.getSumRes(),i3,2);
+                    a32.setAsDouble((double) index3.getRes4()/index3.getSumRes(),i3,3);
+                    a32.setAsDouble((double) index3.getRes5()/index3.getSumRes(),i3,4);
+                    i3++;
+                }
+                a21.setAsDouble(index2.getIndexPercent()/sum2,0,i2);
+                for(int j = 0; j < a31.mtimes(a32).getColumnCount(); j++) {
+                    a22.setAsDouble(a31.mtimes(a32).getAsDouble(0,j),i2,j);
+                }
+                i2++;
+            }
+
+            a11.setAsDouble(index1.getIndexPercent()/sum1,0,i1);
+            for(int j = 0; j < a21.mtimes(a22).getColumnCount(); j++) {
+                a12.setAsDouble(a21.mtimes(a22).getAsDouble(0,j),i1,j);
+            }
+            i1++;
+        }
+        Matrix a = a11.mtimes(a12);
+        int maxIndex = 0;
+        for (int i=0;i<a.getColumnCount()-1;i++){
+            if (a.getAsDouble(0,i)<a.getAsDouble(0,i+1)){
+                maxIndex=i+1;
+            }
+        }
+        String result;
+        if (maxIndex==0){
+            result= "优秀";
+        }else if(maxIndex==1){
+            result= "良好";
+        }else if(maxIndex==2){
+            result= "一般";
+        }else if(maxIndex==3){
+            result= "差";
+        }else{
+            result= "极差";
+        }
+        return result;
     }
 
 
