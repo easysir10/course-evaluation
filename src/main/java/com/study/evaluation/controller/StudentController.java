@@ -98,7 +98,6 @@ public class StudentController {
     @RequestMapping("/submitStuEvaluation")
     public String submitStuEvaluation(Integer[] indexScore, int courseId, int midId, int personNo,
                     String evaluationAdvice, HttpSession session) {
-        session.setAttribute("flag", 0);
         boolean result = evaluationService.submitStuEvaluation(indexScore, courseId, personNo, evaluationAdvice,
                         session, midId);
         if (result) {

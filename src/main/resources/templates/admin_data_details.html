@@ -353,10 +353,11 @@
                     <div class="widget widget-chart-three">
                         <div class="widget-heading">
                             <div class="">
-                                <h5 class="">评价详情</h5>
+                                <h5 class="">数据详情</h5>
                             </div>
                             <div class="dropdown  custom-dropdown">
-                                <a class="dropdown-toggle" id="myTool" onclick="myDisplay()" href="#" style="color: #008FFB">收起</a>
+                                <a class="dropdown-toggle" id="myTool" onclick="myDisplay()" href="#"
+                                   style="color: #008FFB">收起</a>
                             </div>
                         </div>
                         <div class="widget-content" id="myDateDetail">
@@ -500,7 +501,15 @@
                 </div>
                 <div class="col-xl-12 col-lg-6 col-md-6 col-sm-12 col-12 layout-spacing">
 
-                    <button id="exportToPdf" style="float: right" class="btn btn-danger mb-2 mr-2"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-download"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg></button>
+                    <button id="exportToPdf" style="float: right" class="btn btn-danger mb-2 mr-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                             class="feather feather-download">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                            <polyline points="7 10 12 15 17 10"></polyline>
+                            <line x1="12" y1="15" x2="12" y2="3"></line>
+                        </svg>
+                    </button>
 
                 </div>
             </div>
@@ -566,7 +575,7 @@
                 show: true
             }
         },
-        series: [studentCount, otherCount, teacherCount],
+        series: [studentCount, teacherCount, otherCount],
         labels: ['学生', '教师', '同行'],
         responsive: [{
             breakpoint: 480,
@@ -648,23 +657,23 @@
     chart.render();
 </script>
 <script>
-function myDisplay() {
-    var txt = $('#myTool').text();
-    if (txt==='收起') {
-        $('#myDateDetail').hide();
-        $('#myTool').text('展开');
-    }else {
-        $('#myDateDetail').show();
-        $('#myTool').text('收起');
+    function myDisplay() {
+        var txt = $('#myTool').text();
+        if (txt === '收起') {
+            $('#myDateDetail').hide();
+            $('#myTool').text('展开');
+        } else {
+            $('#myDateDetail').show();
+            $('#myTool').text('收起');
+        }
     }
-}
 </script>
 <script src="https://cdn.bootcss.com/jspdf/1.5.3/jspdf.debug.js"></script>
 <script src="https://cdn.bootcss.com/html2canvas/0.5.0-beta4/html2canvas.min.js"></script>
 <script type="text/javascript">
     var downPdf = document.getElementById("exportToPdf");
     downPdf.onclick = function () {
-       window.print();
+        window.print();
     }
 </script>
 </body>

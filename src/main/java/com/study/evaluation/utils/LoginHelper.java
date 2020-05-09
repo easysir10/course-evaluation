@@ -23,7 +23,7 @@ import java.util.Objects;
 public class LoginHelper {
     private static Logger logger = LogManager.getLogger(LoginHelper.class);
 
-    @Pointcut("within(com.study.evaluation.controller..*)&&!within(com.study.evaluation.controller.LoginController)")
+    @Pointcut("within(com.study.evaluation.controller..*)&&!within(com.study.evaluation.controller.LoginController)&&!within(com.study.evaluation.controller.CompanyController)")
     public void login() {
     }
 

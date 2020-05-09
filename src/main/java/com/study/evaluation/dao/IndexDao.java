@@ -44,10 +44,14 @@ public interface IndexDao {
 
     @Select("<script>" +
                 "SELECT count( * ) FROM evaluation_index WHERE index_score = #{score} " +
-                "AND evaluation_id IN ( SELECT evaluation_id FROM evaluation WHERE course_id = #{courseId} )"+
+                "AND evaluation_id IN " +
+                    "( SELECT evaluation_id FROM evaluation WHERE course_id = #{courseId} " +
+                    "<if test='roleId!=-1'>" +
+                        "and role_id =#{roleId}" +
+                    "</if>)"+
                 "<if test='indexId!=-1'>" +
                     "and index_id =#{indexId}" +
                 "</if>"+
             "</script>")
-    int selectResult(@Param("courseId") int courseId,@Param("indexId") int indexId, @Param("score") double score);
+    int selectResult(@Param("courseId") int courseId,@Param("indexId") int indexId, @Param("roleId") int roleId,@Param("score") double score);
 }

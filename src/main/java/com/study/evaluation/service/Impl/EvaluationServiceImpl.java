@@ -27,7 +27,7 @@ public class EvaluationServiceImpl implements EvaluationService {
     EvaluationDao evaluationDao;
 
     /**
-     * 提交评价信息
+     * 提交学生评价信息
      *
      * @param indexScore 各项指标分数
      * @param courseId 评价课程id
@@ -67,6 +67,25 @@ public class EvaluationServiceImpl implements EvaluationService {
         session.setAttribute("messageT1","最终得分："+String.format("%.2f", score)+"分");
         return result;
     }
+
+    /**
+     * 提交同行评价信息
+     *
+     * @param indexScore 各项指标分数
+     * @param courseId 评价课程id
+     * @param evaluationAdvice 意见或建议
+     * @param session session
+     */
+    @Override
+    public boolean submitCompanyEvaluation(Integer[] indexScore, int courseId, String evaluationAdvice, HttpSession session) {
+        // 插入一条评价数据
+        boolean result = evaluationDao.submitEvaluation(-1, courseId, 1, 0, evaluationAdvice);
+        // 计算课程最终得分
+        double score = dealEvaluation(indexScore);
+        session.setAttribute("messageT1","最终得分："+String.format("%.2f", score)+"分");
+        return result;
+    }
+
 
     /**
      * 根据指标等级获取指标个数

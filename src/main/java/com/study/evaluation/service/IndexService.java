@@ -15,7 +15,7 @@ public interface IndexService {
 
     List<IndexBean> displayIndex();
 
-    List<IndexBean> countIndex(int id);
+    List<IndexBean> countIndex(int courseId,int roleId);
 
     /**
      * 删除指标信息

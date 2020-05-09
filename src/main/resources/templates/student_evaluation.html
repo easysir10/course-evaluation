@@ -199,6 +199,9 @@
                         </div>
                     </div>
                     <form class="col-lg-12 layout-spacing" action="/submitStuEvaluation" method="post" onsubmit="return submitCheck();">
+                        <input name="personNo" th:value="${session.user.studentNo}" hidden>
+                        <input name="courseId" th:value="${courseId}" hidden>
+                        <input name="midId" th:value="${midId}" hidden>
                         <div th:each="index1:${indexList}" th:id="${index1.indexId}"
                              class="statbox widget box box-shadow" style="margin-bottom: 10px">
                             <div class="widget-header">
@@ -209,9 +212,6 @@
                                     <h6 class="text-info" th:text="${index2.indexName}"></h6>
                                     <ol>
                                         <div th:each="index3:${index2.seedList}">
-                                            <input name="personNo" th:value="${session.user.studentNo}" hidden>
-                                            <input name="courseId" th:value="${courseId}" hidden>
-                                            <input name="midId" th:value="${midId}" hidden>
                                             <li th:text="${index3.indexName}"
                                                 class="mb-1"></li>
                                             <div id="score" class="n-chk">
@@ -241,7 +241,7 @@
                                                 </label>
                                                 <label class="new-control new-radio new-radio-text radio-primary">
                                                     <input type="checkbox" th:class="'new-control-input '+${index3.indexId}"
-                                                           name="indexScore" value="0" >
+                                                           name="indexScore" value="20" >
                                                     <span class="new-control-indicator"></span><span
                                                         class="new-radio-content" style="font-weight: normal">极差</span>
                                                 </label>

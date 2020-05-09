@@ -45,7 +45,7 @@ public class AdminController {
         session.removeAttribute("messageT1");
         model.addAttribute("courseName",request.getParameter("name"));
         model.addAttribute("course", courseService.selectAll(Integer.parseInt(request.getParameter("id"))).get(0));
-        model.addAttribute("indexList",indexService.countIndex(Integer.parseInt(request.getParameter("id"))));
+        model.addAttribute("indexList",indexService.countIndex(Integer.parseInt(request.getParameter("id")),-1));
         return "admin_data_details";
     }
 
@@ -145,5 +145,8 @@ public class AdminController {
         model.addAttribute("roleList", roleService.selectAll());
         return "admin_other";
     }
+
+
+
 
 }

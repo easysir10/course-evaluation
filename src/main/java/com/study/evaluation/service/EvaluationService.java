@@ -16,22 +16,20 @@ public interface EvaluationService {
     /**
      * 提交学生评价信息
      */
-    boolean submitStuEvaluation(Integer[] indexScore,
-                                int courseId,
-                                int personId,
-                                String evaluationAdvice,
-                                HttpSession session,
-                                int midId);
+    boolean submitStuEvaluation(Integer[] indexScore, int courseId, int personId, String evaluationAdvice,
+                    HttpSession session, int midId);
 
     /**
      * 提交教师评价信息
      */
-    boolean submitTeaEvaluation(Integer[] indexScore,
-                                int courseId,
-                                int personId,
-                                String evaluationAdvice,
-                                HttpSession session,
-                                int midId);
+    boolean submitTeaEvaluation(Integer[] indexScore, int courseId, int personId, String evaluationAdvice,
+                    HttpSession session, int midId);
+
+    /**
+     * 提交同行评价信息
+     */
+    boolean submitCompanyEvaluation(Integer[] indexScore, int courseId, String evaluationAdvice,
+                    HttpSession session);
 
     /**
      * 根据指标等级获取指标个数

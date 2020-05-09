@@ -297,7 +297,8 @@
                                 <tbody>
                                 <tr th:each="eva: ${evaList}">
                                     <td th:text="${eva.evaluationId}"></td>
-                                    <td th:text="${eva.evaluationPeopleNo}+'-'+${eva.evaluationPeopleName}"></td>
+                                    <td th:if="${eva.evaluationPeopleNo ne -1}" th:text="${eva.evaluationPeopleNo}+'-'+${eva.evaluationPeopleName}"></td>
+                                    <td th:if="${eva.evaluationPeopleNo eq -1}" th:text="同行"></td>
                                     <td th:text="${eva.courseId}+'-'+${eva.courseName}"></td>
                                     <td th:text="${eva.evaluationTime}"></td>
                                     <td th:text="${eva.roleName}"></td>
