@@ -303,6 +303,7 @@
                                     <td th:text="${course.typeName}"></td>
                                     <td>
                                         <a class="mb-1 btn"
+                                           onclick="sweetAlert('复制成功！');"
                                            style="box-shadow: none;background: none;padding: 0;margin: 0"
                                            title="点击复制" href="javascript:void(0);" data-clipboard-action="copy"
                                            th:attr="data-clipboard-text='http://localhost:8080/companyEvaluation?courseId='+${course.courseId}+'&courseName='+${course.courseName}">
@@ -496,9 +497,6 @@
 <input id="message" th:value="${message}" hidden>
 <input id="message1" th:value="${message1}" hidden>
 
-<script src="bootstrap/js/popper.min.js"></script>
-<script src="bootstrap/js/bootstrap.min.js"></script>
-
 <script src="assets/js/xlsx.mini.js"></script>
 <script src="assets/js/libs/jquery-3.1.1.min.js"></script>
 <script src="assets/js/app.js"></script>
@@ -507,6 +505,9 @@
 <script src="assets/js/myJs/import.js"></script>
 <script src="assets/js/clipboard/clipboard.min.js"></script>
 <script src="assets/js/forms/custom-clipboard.js"></script>
+
+<script src="bootstrap/js/popper.min.js"></script>
+<script src="bootstrap/js/bootstrap.min.js"></script>
 
 <script src="plugins/perfect-scrollbar/perfect-scrollbar.min.js"></script>
 <script src="plugins/sweetalerts/sweetalert2.min.js"></script>

@@ -299,7 +299,7 @@
                     <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12 col-12 layout-spacing"
                          th:each="course:${courseList}" id="course">
                         <div class="card component-card_7">
-                            <a th:href="'/adminDataDetails?id='+${course.courseId}+'&name='+${course.courseName}">
+                            <a th:href="'/adminDataDetails?id='+${course.courseId}">
                                 <div class="card-body">
                                     <h5 class="card-text" th:text="${course.courseName}"></h5>
                                     <h6 class="rating-count" th:text="${course.avgScore}"></h6>

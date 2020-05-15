@@ -3,6 +3,7 @@ package com.study.evaluation.service.Impl;
 import com.study.evaluation.bean.EvaluationBean;
 import com.study.evaluation.bean.IndexBean;
 import com.study.evaluation.dao.EvaluationDao;
+import com.study.evaluation.dao.IndexDao;
 import com.study.evaluation.service.EvaluationService;
 import com.study.evaluation.service.IndexService;
 import com.study.evaluation.utils.ImportExcelUtil;
@@ -11,6 +12,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -22,6 +25,8 @@ import java.util.List;
 public class EvaluationServiceImpl implements EvaluationService {
     @Autowired
     IndexService indexService;
+    @Autowired
+    IndexDao indexDao;
 
     @Autowired
     EvaluationDao evaluationDao;
@@ -42,7 +47,7 @@ public class EvaluationServiceImpl implements EvaluationService {
         // 计算课程最终得分
         double score = dealEvaluation(indexScore);
         // 修改课程评价状态
-        boolean result = evaluationDao.updateStuCourse(midId,1);
+        boolean result = evaluationDao.updateStuCourse(midId,personNo,1);
         session.setAttribute("messageT1","最终得分："+String.format("%.2f", score)+"分");
         return result;
     }
@@ -146,6 +151,23 @@ public class EvaluationServiceImpl implements EvaluationService {
         }
 
         return result;
+    }
+
+    @Override
+    public HashMap<String, List> getOneIndexScore(int courseId) {
+        HashMap<String, List> map = new HashMap<>();
+
+        List<String> list1 = new ArrayList<>();
+        List<Double> list2 = new ArrayList<>();
+        List<IndexBean> list = indexDao.selectOne();
+
+        for(IndexBean bean:list) {
+            list1.add(bean.getIndexName());
+            list2.add(evaluationDao.selectOneIndexScore(courseId,bean.getIndexId()));
+        }
+        map.put("name",list1);
+        map.put("score",list2);
+        return map;
     }
 
     /**

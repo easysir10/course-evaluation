@@ -477,8 +477,22 @@
             </div>
         </div>
     </div>
+    <div class="modal fade" id="indexTreeView" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-xl" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">指标浏览</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div id="indexTree" style="width: 1000%;height: 800px"></div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
-
 <input id="message" th:value="${message}" hidden>
 <script src="assets/js/xlsx.mini.js"></script>
 <script src="assets/js/libs/jquery-3.1.1.min.js"></script>
@@ -498,6 +512,7 @@
 <script src="plugins/table/datatable/button-ext/dataTables.buttons.min.js"></script>
 <script src="plugins/table/datatable/button-ext/jszip.min.js"></script>
 <script src="plugins/table/datatable/button-ext/buttons.html5.min.js"></script>
+<script src="plugins/echarts/echarts.min.js"></script>
 
 <script>
     $(document).ready(function () {
@@ -541,6 +556,12 @@
                     action: function () {
                         $('#indexAdd').modal('show');
                     }
+                },
+                {
+                    text: '指标浏览', className: 'btn',
+                    action: function () {
+                        $('#indexTreeView').modal('show');
+                    }
                 }
             ]
         },
@@ -559,6 +580,65 @@
         "stripeClasses": [],
         "pageLength": 5,
         "bAutoWidth": true
+    });
+</script>
+<script>
+    var indexTree = echarts.init(document.getElementById('indexTree'));
+    $.ajax({
+        url: "/getIndexTree",
+        type: "post",
+        dataType: 'json',
+        success: function (data) {
+            var option = {
+                tooltip: {
+                    trigger: 'item',
+                    triggerOn: 'mousemove'
+                },
+                series: [
+                    {
+                        type: 'tree',
+                        id: 0,
+                        name: 'tree1',
+                        data: [data],
+
+                        top: '5%',
+                        left: '8%',
+                        bottom: '5%',
+                        right: '20%',
+
+                        symbolSize: 7,
+
+                        edgeShape: 'polyline',
+                        edgeForkPosition: '63%',
+                        initialTreeDepth: 3,
+
+                        lineStyle: {
+                            width: 2
+                        },
+
+                        label: {
+                            backgroundColor: '#fff',
+                            position: 'left',
+                            verticalAlign: 'middle',
+                            align: 'right'
+                        },
+
+                        leaves: {
+                            label: {
+                                position: 'right',
+                                verticalAlign: 'middle',
+                                align: 'left'
+                            }
+                        },
+
+                        expandAndCollapse: true,
+                        animationDuration: 550,
+                        animationDurationUpdate: 750
+                    }
+                ]
+            };
+            indexTree.setOption(option);
+        }
     });
 </script>
 </body>

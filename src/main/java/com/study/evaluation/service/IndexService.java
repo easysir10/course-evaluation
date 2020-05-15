@@ -1,7 +1,9 @@
 package com.study.evaluation.service;
 
 import com.study.evaluation.bean.IndexBean;
+import com.study.evaluation.bean.UtilBean;
 
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -18,6 +20,11 @@ public interface IndexService {
     List<IndexBean> countIndex(int courseId,int roleId);
 
     /**
+     * 获取一些指标数据信息
+     */
+    HashMap<String,List> getIndexScoreDetail(int courseId);
+
+    /**
      * 删除指标信息
      */
     int deleteById(int id);
@@ -31,4 +38,6 @@ public interface IndexService {
      * 插入学生信息
      */
     int insertIndex(IndexBean indexBean);
+
+    UtilBean getIndexTree();
 }

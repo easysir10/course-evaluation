@@ -1,6 +1,8 @@
 package com.study.evaluation.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.study.evaluation.bean.IndexBean;
+import com.study.evaluation.bean.UtilBean;
 import com.study.evaluation.service.IndexService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -8,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpSession;
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * description
@@ -50,5 +54,19 @@ public class IndexController {
             session.setAttribute("messageT", "添加成功！");
         }
         return "redirect:/adminIndex";
+    }
+
+    @RequestMapping("/getIndexScoreDetail")
+    @ResponseBody
+    public String getIndexScoreDetail(int courseId){
+        HashMap<String, List> hashMap = indexService.getIndexScoreDetail(courseId);
+        return JSON.toJSONString(hashMap);
+    }
+
+    @RequestMapping("/getIndexTree")
+    @ResponseBody
+    public String getIndexTree(){
+        UtilBean bean = indexService.getIndexTree();
+        return JSON.toJSONString(bean);
     }
 }

@@ -44,8 +44,9 @@ public interface EvaluationDao {
     /**
      * 更新学生课程的评价状态
      */
-    @Update("update student_course set status=#{status} where mid_id = #{midId}")
-    boolean updateStuCourse(@Param("midId") int midId, @Param("status") int status);
+    @Update("update student_course set status=#{status} where mid_id = #{midId} and student_id in " +
+            "(select student_id from student where student_no = #{studentNo})")
+    boolean updateStuCourse(@Param("midId") int midId, @Param("studentNo") int studentNo, @Param("status") int status);
 
     /**
      * 更新教师课程的评价状态
@@ -96,5 +97,11 @@ public interface EvaluationDao {
     @Insert("insert into evaluation(evaluation_people_no,course_id,evaluation_time,evaluation_score,evaluation_advice,role_id) "
                     + "values(#{bean.evaluationPeopleNo},#{bean.courseId},#{bean.evaluationTime},#{bean.evaluationScore},#{bean.evaluationAdvice},#{bean.roleId});")
     int insert(@Param("bean") EvaluationBean bean);
+
+    /**
+     * 查询一级指标的平均得分
+     */
+    @Select("select avg(index_score) from evaluation_index where index_id=#{indexId} and evaluation_id in (select evaluation_id from evaluation where course_id = #{courseId})")
+    Double selectOneIndexScore(@Param("courseId") int courseId, @Param("indexId") int indexId);
 
 }

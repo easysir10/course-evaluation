@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8">
@@ -128,7 +128,7 @@
 
                     <nav class="breadcrumb-one" aria-label="breadcrumb">
                         <ol class="breadcrumb">
-                            <li class="breadcrumb-item" th:text="'数据中心 / '+${courseName}"></li>
+                            <li class="breadcrumb-item" th:text="'数据中心 / '+${course.courseName}"></li>
                             <!--                            <li class="breadcrumb-item active" aria-current="page"><span>Basic</span></li>-->
                         </ol>
                     </nav>
@@ -281,13 +281,12 @@
         <div class="layout-px-spacing">
 
             <div class="row layout-top-spacing">
-
                 <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12 col-12 layout-spacing">
                     <div class="widget widget-card-four widget-one">
                         <div class="widget-content">
                             <div class="w-content">
                                 <div class="widget-heading">
-                                    <h6 class="" th:text="${courseName}"></h6>
+                                    <h6>课程信息</h6>
                                 </div>
                                 <div class="">
                                     <div class="w-icon">
@@ -306,15 +305,18 @@
                             <div class="w-chart" style="height: 100px">
                                 <div class="w-chart-section">
                                     <div class="w-detail">
-                                        <p class="w-title">评价结果</p>
-                                        <p class="w-stats" th:text="${course.result}"></p>
+                                        <p class="w-title">评价课程</p>
+                                        <p class="w-stats" th:if="${course.courseName.length() gt 5}"
+                                           th:title="${course.courseName}"
+                                           th:text="${course.courseName.substring(0,5)}+'...'"></p>
+                                        <p class="w-stats" th:if="${course.courseName.length() le 5}"
+                                           th:text="${course.courseName}"></p>
                                     </div>
                                 </div>
-
                                 <div class="w-chart-section">
                                     <div class="w-detail">
-                                        <p class="w-title">平均得分</p>
-                                        <p class="w-stats" th:text="${course.avgScore}"></p>
+                                        <p class="w-title">评价结果</p>
+                                        <p class="w-stats" th:text="${course.result}"></p>
                                     </div>
                                 </div>
                             </div>
@@ -323,6 +325,12 @@
                                     <div class="w-detail">
                                         <p class="w-title">评价总量</p>
                                         <p class="w-stats" th:text="${course.count}"></p>
+                                    </div>
+                                </div>
+                                <div class="w-chart-section">
+                                    <div class="w-detail">
+                                        <p class="w-title">平均得分</p>
+                                        <p class="w-stats" th:text="${course.avgScore}"></p>
                                     </div>
                                 </div>
                             </div>
@@ -335,7 +343,7 @@
                             <h5 class="">数量分布</h5>
                         </div>
                         <div class="widget-content">
-                            <div id="evaCount1"></div>
+                            <div id="evaCount1" style="width: 100%;height:200px;"></div>
                         </div>
                     </div>
                 </div>
@@ -345,7 +353,7 @@
                             <h5 class="">评价分布</h5>
                         </div>
                         <div class="widget-content">
-                            <div id="evaCount2"></div>
+                            <div id="evaCount2" style="width: 100%;height:200px"></div>
                         </div>
                     </div>
                 </div>
@@ -360,149 +368,16 @@
                                    style="color: #008FFB">收起</a>
                             </div>
                         </div>
-                        <div class="widget-content" id="myDateDetail">
-                            <div class="element-background" style="margin: 10px;">
-                                <ul class="list-icon" th:if="${course.count ne 0}">
-                                    <li th:each="index1:${indexList}">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                             viewBox="0 0 24 24"
-                                             fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                             stroke-linejoin="round" class="feather feather-arrow-right">
-                                            <line x1="5" y1="12" x2="19" y2="12"></line>
-                                            <polyline points="12 5 19 12 12 19"></polyline>
-                                        </svg>
-                                        <span class="list-text" style="color: #008FFB"
-                                              th:text="${index1.indexName}"></span>
-                                        <ul>
-                                            <li class="mb-1" th:each="index2:${index1.seedList}">
-                                                <span class="list-text" th:text="${index2.indexName}"></span>
-                                                <ol>
-                                                    <li th:each="index3:${index2.seedList}">
-                                                        <span class="list-text" th:text="${index3.indexName}"></span>
-                                                        <div class="widget-three" style="box-shadow: none;width: 80%">
-                                                            <div class="widget-content">
-                                                                <div class="order-summary">
-
-                                                                    <div class="summary-list">
-                                                                        <div class="w-summary-details">
-                                                                            <div class="w-summary-info">
-                                                                                <h6>优秀</h6>
-                                                                                <p class="summary-count"
-                                                                                   th:text="${index3.res1}"></p>
-                                                                            </div>
-
-                                                                            <div class="w-summary-stats">
-                                                                                <div class="progress">
-                                                                                    <div class="progress-bar bg-gradient-success"
-                                                                                         role="progressbar"
-                                                                                         th:style="'width:'+${index3.res1}/${index3.getSumRes()}*100+'%'"
-                                                                                         aria-valuenow="90"
-                                                                                         aria-valuemin="0"
-                                                                                         aria-valuemax="100"></div>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-
-                                                                    <div class="summary-list">
-                                                                        <div class="w-summary-details">
-                                                                            <div class="w-summary-info">
-                                                                                <h6>良好</h6>
-                                                                                <p class="summary-count"
-                                                                                   th:text="${index3.res2}"></p>
-                                                                            </div>
-
-                                                                            <div class="w-summary-stats">
-                                                                                <div class="progress">
-                                                                                    <div class="progress-bar bg-gradient-info"
-                                                                                         role="progressbar"
-                                                                                         th:style="'width:'+${index3.res2}/${index3.getSumRes()}*100+'%'"
-                                                                                         aria-valuenow="90"
-                                                                                         aria-valuemin="0"
-                                                                                         aria-valuemax="100"></div>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-
-                                                                    <div class="summary-list">
-                                                                        <div class="w-summary-details">
-                                                                            <div class="w-summary-info">
-                                                                                <h6>一般</h6>
-                                                                                <p class="summary-count"
-                                                                                   th:text="${index3.res3}"></p>
-                                                                            </div>
-
-                                                                            <div class="w-summary-stats">
-                                                                                <div class="progress">
-                                                                                    <div class="progress-bar bg-gradient-dark"
-                                                                                         role="progressbar"
-                                                                                         th:style="'width:'+${index3.res3}/${index3.getSumRes()}*100+'%'"
-                                                                                         aria-valuenow="90"
-                                                                                         aria-valuemin="0"
-                                                                                         aria-valuemax="100"></div>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-
-                                                                    <div class="summary-list">
-                                                                        <div class="w-summary-details">
-                                                                            <div class="w-summary-info">
-                                                                                <h6>差</h6>
-                                                                                <p class="summary-count"
-                                                                                   th:text="${index3.res4}"></p>
-                                                                            </div>
-
-                                                                            <div class="w-summary-stats">
-                                                                                <div class="progress">
-                                                                                    <div class="progress-bar bg-gradient-warning"
-                                                                                         role="progressbar"
-                                                                                         th:style="'width:'+${index3.res4}/${index3.getSumRes()}*100+'%'"
-                                                                                         aria-valuenow="90"
-                                                                                         aria-valuemin="0"
-                                                                                         aria-valuemax="100"></div>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-
-                                                                    <div class="summary-list">
-                                                                        <div class="w-summary-details">
-                                                                            <div class="w-summary-info">
-                                                                                <h6>极差</h6>
-                                                                                <p class="summary-count"
-                                                                                   th:text="${index3.res5}"></p>
-                                                                            </div>
-                                                                            <div class="w-summary-stats">
-                                                                                <div class="progress">
-                                                                                    <div class="progress-bar bg-gradient-danger"
-                                                                                         role="progressbar"
-                                                                                         th:style="'width:'+${index3.res5}/${index3.getSumRes()}*100+'%'"
-                                                                                         aria-valuenow="90"
-                                                                                         aria-valuemin="0"
-                                                                                         aria-valuemax="100"></div>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </li>
-                                                </ol>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                </ul>
-                            </div>
+                        <div class="widget-content">
+                            <div id="myDateDetail" style="width: 100%;height:3000px;"></div>
                         </div>
                     </div>
                 </div>
                 <div class="col-xl-12 col-lg-6 col-md-6 col-sm-12 col-12 layout-spacing">
 
-                    <button id="exportToPdf" style="float: right" class="btn btn-danger mb-2 mr-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                    <button style="float: right" class="btn btn-danger mb-2 mr-2" onclick="makeMpdf()">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                             fill="none"
                              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                              class="feather feather-download">
                             <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
@@ -512,25 +387,25 @@
                     </button>
 
                 </div>
-            </div>
-
-            <div class="footer-wrapper">
-                <div class="footer-section f-section-1">
-                    <p class="">Copyright © 2020-Design By <a href="https://blog.csdn.net/qq_40947493">easysir10</a>.
-                    </p>
+                <div class="footer-wrapper">
+                    <div class="footer-section f-section-1">
+                        <p class="">Copyright © 2020-Design By <a href="https://blog.csdn.net/qq_40947493">easysir10</a>.
+                        </p>
+                    </div>
+                    <div class="footer-section f-section-2">
+                        <p class="">Coded with
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                 fill="none"
+                                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                 class="feather feather-heart">
+                                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                            </svg>
+                        </p>
+                    </div>
                 </div>
-                <div class="footer-section f-section-2">
-                    <p class="">Coded with
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                             class="feather feather-heart">
-                            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
-                        </svg>
-                    </p>
-                </div>
             </div>
+            <!--  END CONTENT PART  -->
         </div>
-        <!--  END CONTENT PART  -->
     </div>
 </div>
 
@@ -540,6 +415,8 @@
 <script src="assets/js/app.js"></script>
 <script src="assets/js/custom.js"></script>
 <script src="assets/js/scrollspyNav.js"></script>
+<script src="assets/js/dashboard/dash_1.js"></script>
+<script src="assets/js/dashboard/dash_2.js"></script>
 
 <script src="bootstrap/js/popper.min.js"></script>
 <script src="bootstrap/js/bootstrap.min.js"></script>
@@ -548,9 +425,9 @@
 <script src="plugins/sweetalerts/sweetalert2.min.js"></script>
 <script src="plugins/sweetalerts/custom-sweetalert.js"></script>
 <script src="plugins/highlight/highlight.pack.js"></script>
-<script src="plugins/apex/apexcharts.min.js"></script>
-<script src="assets/js/dashboard/dash_1.js"></script>
-<script src="assets/js/dashboard/dash_2.js"></script>
+<script src="plugins/echarts/echarts.min.js"></script>
+<script src="https://cdn.bootcss.com/html2canvas/0.5.0-beta4/html2canvas.js"></script>
+<script src="https://cdn.bootcss.com/jspdf/1.3.4/jspdf.debug.js"></script>
 
 <script>
     $(document).ready(function () {
@@ -561,100 +438,6 @@
     if (msg !== '') {
         swal(msg, msg1)
     }
-</script>
-
-<script>
-    var studentCount = [[${course.studentCount}]];
-    var teacherCount = [[${course.teacherCount}]];
-    var otherCount = [[${course.otherCount}]];
-    var donutChart = {
-        chart: {
-            height: 200,
-            type: 'donut',
-            toolbar: {
-                show: true
-            }
-        },
-        series: [studentCount, teacherCount, otherCount],
-        labels: ['学生', '教师', '同行'],
-        responsive: [{
-            breakpoint: 480,
-            options: {
-                chart: {
-                    width: 150
-                },
-                legend: {
-                    position: 'bottom'
-                }
-            }
-        }]
-    };
-    var donut = new ApexCharts(
-        document.querySelector('#evaCount1'),
-        donutChart
-    );
-    donut.render();
-</script>
-<script>
-    var res1 = [[${course.res1}]];
-    var res2 = [[${course.res2}]];
-    var res3 = [[${course.res3}]];
-    var res4 = [[${course.res4}]];
-    var res5 = [[${course.res5}]];
-    var sCol = {
-        chart: {
-            height: 200,
-            type: 'bar',
-            toolbar: {
-                show: true
-            }
-        },
-        plotOptions: {
-            bar: {
-                horizontal: false,
-                columnWidth: '55%',
-                endingShape: 'rounded'
-            }
-        },
-        dataLabels: {
-            enabled: false
-        },
-        stroke: {
-            show: true,
-            width: 2,
-            colors: ['transparent']
-        },
-        series: [{
-            name: '数量',
-            data: [res1, res2, res3, res4, res5]
-        }],
-        xaxis: {
-            categories: ['优秀', '良好', '一般', '差', '极差']
-        },
-        yaxis: {
-            title: {
-                text: '单位：个'
-            }
-        },
-        fill: {
-            opacity: 1
-
-        },
-        tooltip: {
-            y: {
-                formatter: function (val) {
-                    return val + "个"
-                }
-            }
-        }
-    };
-
-    var chart = new ApexCharts(
-        document.querySelector("#evaCount2"),
-        sCol
-    );
-
-    chart.render();
 </script>
 <script>
     function myDisplay() {
@@ -668,11 +451,187 @@
         }
     }
 </script>
-<script src="https://cdn.bootcss.com/jspdf/1.5.3/jspdf.debug.js"></script>
-<script src="https://cdn.bootcss.com/html2canvas/0.5.0-beta4/html2canvas.min.js"></script>
+<script>
+    var myChart1 = echarts.init(document.getElementById('evaCount1'));
+    var myChart2 = echarts.init(document.getElementById('evaCount2'));
+    var myChart3 = echarts.init(document.getElementById('myDateDetail'));
+    // var myChart4 = echarts.init(document.getElementById('evaCount4'));
+
+    var studentCount = [[${course.studentCount}]];
+    var teacherCount = [[${course.teacherCount}]];
+    var otherCount = [[${course.otherCount}]];
+
+    option1 = {
+        tooltip: {
+            trigger: 'item',
+            formatter: '{a} <br/>{b}: {c} ({d}%)'
+        },
+        legend: {
+            orient: 'vertical',
+            left: 10,
+            data: ['学生评价', '同行评价', '教师评价']
+        },
+        series: [
+            {
+                name: '评价人数',
+                type: 'pie',
+                radius: ['50%', '70%'],
+                avoidLabelOverlap: false,
+                label: {
+                    show: false,
+                    position: 'center'
+                },
+                emphasis: {
+                    label: {
+                        show: true,
+                        fontSize: '15',
+                        fontWeight: 'bold'
+                    }
+                },
+                labelLine: {
+                    show: true
+                },
+                data: [
+                    {value: studentCount, name: '学生评价'},
+                    {value: otherCount, name: '同行评价'},
+                    {value: teacherCount, name: '教师评价'}
+                ]
+            }
+        ]
+    };
+
+    myChart1.setOption(option1);
+
+    var res1 = [[${course.res1}]];
+    var res2 = [[${course.res2}]];
+    var res3 = [[${course.res3}]];
+    var res4 = [[${course.res4}]];
+    var res5 = [[${course.res5}]];
+    option2 = {
+        color: ['#3398DB'],
+        tooltip: {
+            trigger: 'axis',
+            axisPointer: {            // 坐标轴指示器，坐标轴触发有效
+                type: 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+            }
+        },
+        grid: {
+            left: '3%',
+            right: '4%',
+            bottom: '3%',
+            top: '3%',
+            containLabel: true
+        },
+        xAxis: [
+            {
+                type: 'category',
+                data: ['优秀', '良好', '一般', '差', '极差'],
+                axisTick: {
+                    alignWithLabel: true
+                }
+            }
+        ],
+        yAxis: [
+            {
+                type: 'value'
+            }
+        ],
+        series: [
+            {
+                name: '指标数量',
+                type: 'bar',
+                barWidth: '50%',
+                data: [res1, res2, res3, res4, res5]
+            }
+        ]
+    };
+    myChart2.setOption(option2);
+
+
+    var courseId = [[${course.CourseId}]];
+    $.ajax({
+        url: "/getIndexScoreDetail?courseId=" + courseId,
+        type: "post",
+        dataType: 'json',
+        success: function (data) {
+            option3 = {
+                tooltip: {
+                    trigger: 'axis',
+                    axisPointer: {            // 坐标轴指示器，坐标轴触发有效
+                        type: 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+                    }
+                },
+                legend: {
+                    data: ['优秀', '良好', '一般', '差', '极差']
+                },
+                grid: {
+                    left: '3%',
+                    right: '4%',
+                    bottom: '3%',
+                    containLabel: true
+                },
+                xAxis: {
+                    type: 'value'
+                },
+                yAxis: {
+                    type: 'category',
+                    data: data['indexLabel']
+                },
+                series: [
+                    {
+                        name: '优秀',
+                        type: 'bar',
+                        label: {
+                            show: true,
+                            position: 'insideRight'
+                        },
+                        data: data['indexCount1']
+                    },
+                    {
+                        name: '良好',
+                        type: 'bar',
+                        label: {
+                            show: true,
+                            position: 'insideRight'
+                        },
+                        data: data['indexCount2']
+                    },
+                    {
+                        name: '一般',
+                        type: 'bar',
+                        label: {
+                            show: true,
+                            position: 'insideRight'
+                        },
+                        data: data['indexCount3']
+                    },
+                    {
+                        name: '差',
+                        type: 'bar',
+                        label: {
+                            show: true,
+                            position: 'insideRight'
+                        },
+                        data: data['indexCount4']
+                    },
+                    {
+                        name: '极差',
+                        type: 'bar',
+                        label: {
+                            show: true,
+                            position: 'insideRight'
+                        },
+                        data: data['indexCount5']
+                    }
+                ]
+            };
+            myChart3.setOption(option3);
+        }
+    });
+</script>
 <script type="text/javascript">
-    var downPdf = document.getElementById("exportToPdf");
-    downPdf.onclick = function () {
+
+    function makeMpdf() {
         window.print();
     }
 </script>

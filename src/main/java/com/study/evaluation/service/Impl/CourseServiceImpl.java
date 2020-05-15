@@ -170,11 +170,19 @@ public class CourseServiceImpl implements CourseService {
 
                     for (IndexBean index3 : index2.getSeedList()) {
                         a31.setAsDouble(index3.getIndexPercent() / sum3, 0, i3);
-                        a32.setAsDouble((double) index3.getRes1() / index3.getSumRes(), i3, 0);
-                        a32.setAsDouble((double) index3.getRes2() / index3.getSumRes(), i3, 1);
-                        a32.setAsDouble((double) index3.getRes3() / index3.getSumRes(), i3, 2);
-                        a32.setAsDouble((double) index3.getRes4() / index3.getSumRes(), i3, 3);
-                        a32.setAsDouble((double) index3.getRes5() / index3.getSumRes(), i3, 4);
+                        if (index3.getSumRes()!=0){
+                            a32.setAsDouble((double) index3.getRes1() / index3.getSumRes(), i3, 0);
+                            a32.setAsDouble((double) index3.getRes2() / index3.getSumRes(), i3, 1);
+                            a32.setAsDouble((double) index3.getRes3() / index3.getSumRes(), i3, 2);
+                            a32.setAsDouble((double) index3.getRes4() / index3.getSumRes(), i3, 3);
+                            a32.setAsDouble((double) index3.getRes5() / index3.getSumRes(), i3, 4);
+                        }else {
+                            a32.setAsDouble(0, i3, 0);
+                            a32.setAsDouble(0, i3, 1);
+                            a32.setAsDouble(0, i3, 2);
+                            a32.setAsDouble(0, i3, 3);
+                            a32.setAsDouble(0, i3, 4);
+                        }
                         i3++;
                     }
                     a21.setAsDouble(index2.getIndexPercent() / sum2, 0, i2);
@@ -183,7 +191,6 @@ public class CourseServiceImpl implements CourseService {
                     }
                     i2++;
                 }
-
                 a11.setAsDouble(index1.getIndexPercent() / sum1, 0, i1);
                 for (int j = 0; j < a21.mtimes(a22).getColumnCount(); j++) {
                     a12.setAsDouble(a21.mtimes(a22).getAsDouble(0, j), i1, j);

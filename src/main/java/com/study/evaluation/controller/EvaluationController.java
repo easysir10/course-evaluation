@@ -1,7 +1,7 @@
 package com.study.evaluation.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.study.evaluation.service.EvaluationService;
-import com.sun.deploy.net.URLEncoder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -10,7 +10,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpSession;
-import java.io.UnsupportedEncodingException;
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * description
@@ -42,20 +43,11 @@ public class EvaluationController {
         return "redirect:/index";
     }
 
-    /**
-     * 提交同行评价
-     */
-    @RequestMapping("/submitCompanyEvaluation")
-    public String submitCompanyEvaluation(Integer[] indexScore, int courseId,String courseName,
-                                      String evaluationAdvice, HttpSession session) throws UnsupportedEncodingException {
-        System.out.println(courseName);
-        boolean result = evaluationService.submitCompanyEvaluation(indexScore,courseId,evaluationAdvice,session);
-        if (result) {
-            session.setAttribute("messageT", "评价成功！");
-        } else {
-            session.setAttribute("messageT", "评价失败！");
-        }
 
-        return "redirect:/companyEvaluation?courseId="+courseId+"&courseName="+ URLEncoder.encode(courseName,"UTF-8");
+    @RequestMapping("/getOneIndexScore")
+    @ResponseBody
+    public String getOneIndexScore(int courseId){
+        HashMap<String, List> map= evaluationService.getOneIndexScore(courseId);
+        return JSON.toJSONString(map);
     }
 }

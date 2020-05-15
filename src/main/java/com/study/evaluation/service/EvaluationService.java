@@ -4,6 +4,7 @@ import com.study.evaluation.bean.EvaluationBean;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpSession;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -50,4 +51,7 @@ public interface EvaluationService {
      * 插入评价信息
      */
     int[] insertBatch(MultipartFile file);
+
+
+    HashMap<String,List> getOneIndexScore(int courseId);
 }
